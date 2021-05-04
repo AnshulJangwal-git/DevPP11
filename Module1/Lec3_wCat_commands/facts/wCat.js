@@ -3,7 +3,7 @@ const fs = require("fs");
 // cat f1.txt => f1 ka content
 // cat f1.txt f2.txt => f1 ka content + f2 ka content
 
-let f1KaData = fs.readFileSync("./f1.txt", "utf8");
+let data = fs.readFileSync("./f1.txt", "utf8");
 let f2KaData = fs.readFileSync("./f2.txt", "utf8");
 
 // let bothOutput = f1KaData + "\n" +f2KaData;
@@ -13,7 +13,7 @@ let f2KaData = fs.readFileSync("./f2.txt", "utf8");
 
 // f1KaData
 // -s flag => remove extra spaces !!!
-function applySFlag(f1KaData) {
+function applySFlag(data) {
   // Hey I am F1
   // space
   // space
@@ -23,7 +23,7 @@ function applySFlag(f1KaData) {
   // Bye I am F1
   let emptyIncluded = false;
   let removedSpaces = [];
-  let splittedData = f1KaData.split("\r\n");
+  let splittedData = data.split("\r\n");
   //   [ 'Hey I am F1', '', '', '', '',  '','Bye I am F1', ''];
   console.log(splittedData);
 
@@ -44,5 +44,45 @@ function applySFlag(f1KaData) {
   // Bye I am F1
 }
 
-let removedSpacesString = applySFlag(f1KaData);
-console.log(removedSpacesString);
+// let removedSpacesString = applySFlag(f1KaData);
+// console.log(removedSpacesString);
+
+
+//-b Flag => 
+function applyBFlag(data){
+  let count = 1 ;
+  let splittedData = data.split("\r\n") ;
+
+  for(let i = 0; i < splittedData.length; i++){
+    if(splittedData[i] != ''){
+      splittedData[i] = `${count}.${splittedData[i]}` ;
+      count ++ ;
+    }
+  }
+  console.log(splittedData) ;
+  let bFlaggedString = splittedData.join("\r\n") ;
+  return bFlaggedString ;
+
+}
+// let bFlaggedString = applyBFlag(data) ;
+// console.log(bFlaggedString) ;
+
+
+
+//-n Flag...
+function applyNFlag(data){
+  let count = 1 ;
+  let splittedData = data.split("\r\n") ;
+
+  for(let i = 0; i < splittedData.length; i++){
+   
+      splittedData[i] = `${count}.${splittedData[i]}` ;
+      // splittedData[i] = count+". " + splittedData[i] ;
+      count ++ ;
+  }
+  console.log(splittedData) ;
+  let nFlaggedString = splittedData.join("\r\n") ;
+  return nFlaggedString ;
+
+}
+console.log(applyNFlag(data)) ;
