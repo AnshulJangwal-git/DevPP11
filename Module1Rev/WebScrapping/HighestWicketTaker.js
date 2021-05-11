@@ -19,7 +19,7 @@ function processData(data){
     let economyOfHighestWicketTaker ;
 
     for(let i = 0; i < bothBowlingTables.length; i++){
-        let bowlingTable =myDocument(bothBowlingTables[i]) ;
+        let bowlingTable = myDocument(bothBowlingTables[i]) ;
 
         let allTrs = bowlingTable.find("tbody tr") ;
 
