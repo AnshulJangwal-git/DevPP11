@@ -40,10 +40,36 @@ browserOpenPromise.then(function(browser){
   .then(function(){
     return waitAndClick('a[data-attr1="warmup"]');
   })
+  .then(function(){
+    return tab.waitForSelector(".js-track-click.challenge-list-item",
+     {visible : true}) ;
+  })
+  .then(function(){
+    return tab.$$(".js-track-click.challenge-list-item") ;
+  })
+  .then(function(allQuesArray){
+      let allPendingPromises = [] ;
+
+    for(let i = 0; i < allQuesArray.length; i++){
+      let oneAtag = allQuesArray[i] ;
+      let pendingPromise = oneAtag.evaluate(function (element){return element.getAttribute("href");}, oneAtag) ;
+      allPendingPromises.push(pendingPromise) ;
+    }
+
+    console.log(allPendingPromises) ;
+
+    let allPromisesCombined = Promise.all(allPendingPromises) ;
+
+    return allPromisesCombined ;
+  })
+  .then(function(allQuesLinks){
+      console.log(allQuesLinks) ;
+  })
   .catch(function(err){
     console.log(err);
   })
   
+
   function waitAndClick(selector){
     return new Promise( function(scb , fcb){
       let waitPromise = tab.waitForSelector( selector , { visible: true });
