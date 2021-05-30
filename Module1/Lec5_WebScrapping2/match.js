@@ -43,12 +43,12 @@ function processData(html){
 
                 let strikeRate = myDocument(allTds[7]).text().trim() ;
 
-                // console.log(`Batsman = ${batsmanName} Runs = ${runs} Balls = ${balls} Fours = ${fours} Sixes = ${sixes} StrikeRate = ${strikeRate}`) ;
+                 console.log(`Batsman = ${batsmanName} Runs = ${runs} Balls = ${balls} Fours = ${fours} Sixes = ${sixes} StrikeRate = ${strikeRate}`) ;
 
                 processDetail(teamName, batsmanName, runs, balls, fours, sixes, strikeRate ) ;
             }
         }
-        // console.log("############################################") ;
+         console.log("############################################") ;
 
     } 
 
