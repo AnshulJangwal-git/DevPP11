@@ -1,9 +1,11 @@
 const puppeteer = require("puppeteer") ;
 
 const id = "jangwal006@gmail.com" ;
-const pw = "PRANJAl@006" ;
+const pw = "fakePassword@006" ;
 
+let idx ;
 let tab ;
+let gCode ;
 
 //puppeteer has promisfied functions..
 //by default headless = true 
@@ -65,14 +67,125 @@ browserOpenPromise.then(function(browser){
   .then(function(allQuesLinks){
       // console.log(allQuesLinks) ;
       let oneQuesSolvePromise = solveQuestion(allQuesLinks[0]) ;
+      
+      for(let i = 1; i < allQuesLinks.length; i++){
+        oneQuesSolvePromise = oneQuesSolvePromise.then(function(){
+          let nextQuesSolvePromise = sol(allQuesLinks[i]) ;
+
+          return nextQuesSolvePromise ;
+        })
+      }
       return oneQuesSolvePromise ;
   })
   .then(function(){
-
+      console.log("All Question Solved Successfully !!") ;
   })
   .catch(function(err){
     console.log(err);
   })
+
+
+  function getCode(){
+    return new Promise(function(scb , fcb){
+      let waitPromise = tab.waitForSelector(".hackdown-content h3" , {visible:true});
+      waitPromise.then(function(){
+        return tab.$$(".hackdown-content h3");
+      })
+      .then(function(allCodeNamesElement){
+        // [<h3>C++</h3> , <h3>Python</h3> , <h3>Java</h3> ]
+        let allCodeNamesPromise = [];
+        for(let i=0 ; i<allCodeNamesElement.length ; i++){
+          let codeNamePromise = tab.evaluate( function(elem){  return elem.textContent;   }  , allCodeNamesElement[i]  );
+          allCodeNamesPromise.push(codeNamePromise);
+        }
+        // allCodeNamesPromise = [Promise<data> , Promise<data> , Promise<data> ];
+        let combinedPromise = Promise.all( allCodeNamesPromise );
+        // Promise<Pending> => Promise< [data,data,data] >
+        return combinedPromise;
+      })
+      .then(function(allCodeNames){
+        // [C++ , Python , Java];
+        for(let i= 0 ;i<allCodeNames.length ; i++){
+          if(allCodeNames[i] == "C++"){
+            idx = i;
+            break;
+          }
+        }
+        return tab.$$(".hackdown-content .highlight"); // document.querySelectorAll
+      })
+      .then(function(allCodeDiv){
+        // [<div></div> , <div></div> , <div></div>];
+        let codeDiv = allCodeDiv[idx];
+        return tab.evaluate(function(elem){ return elem.textContent;   }  , codeDiv);
+      })
+      .then(function(code){
+        gCode = code;
+        scb();
+      })
+      .catch(function(error){
+        fcb(error);
+      })
+    })
+  }
+
+  function pasteCode(){
+    return new Promise(function(scb , fcb){
+      let waitAndClickPromise = waitAndClick('.checkbox-input');
+      waitAndClickPromise.then(function(){
+        return tab.waitForTimeout(2000);
+      })
+      .then(function(){
+        return tab.type('.custominput' , gCode);
+      })
+      .then(function(){
+        return tab.keyboard.down("Control");
+      })
+      .then(function(){
+        return tab.keyboard.press("A");
+      })
+      .then(function(){
+        return tab.keyboard.press("X");
+      })
+      .then(function(){
+        return tab.click('.monaco-scrollable-element.editor-scrollable.vs');
+      })
+      .then(function(){
+        return tab.keyboard.press("A");
+      })
+      .then(function(){
+        return tab.keyboard.press("V");
+      })
+      .then(function(){
+        return tab.keyboard.up("Control");
+      })
+      .then(function(){
+        scb();
+      })
+    })
+  }
+
+  function handleLockBtn(){
+    return new Promise(function(scb , fcb){
+      let waitForLockBtn = tab.waitForSelector('.ui-btn.ui-btn-normal.ui-btn-primary.ui-btn-styled' , {visible:true , timeout:5000});
+      waitForLockBtn.then(function(){
+        return tab.$('.ui-btn.ui-btn-normal.ui-btn-primary.ui-btn-styled');
+      })
+      .then(function(lockButton){
+        return tab.evaluate(function(elem){ return elem.click()  } , lockButton);
+      })
+      .then(function(){
+        // Lock Button Found !!
+        console.log("Lock Button Found !!");
+        scb();
+      })
+      .catch(function(){
+        // Lock Button Not Found !!
+        console.log("Lock Button not found !!");
+        scb();
+      })
+    })
+  }
+
 
   function solveQuestion(quesLink){
     return new Promise(function(scb, fcb){
@@ -81,8 +194,33 @@ browserOpenPromise.then(function(browser){
           // console.log("Reached first Ques!!") ;
           waitAndClick('div[data-attr2="Editorial"]') ;
       })
-
-
+      .then(function(){
+        return handleLockBtn() ;
+      })
+      .then(function(){
+          return getCode() ;
+      })
+      .then(function(){
+         return tab.click('div[data-attr2="Problem"]') ;
+      })
+      .then(function(){
+        return tab.waitForTimeout(2000) ;
+      })
+      .then(function(){
+        pasteCode() ;
+      })
+      .then(function(){
+        return tab.waitForTimeout(2000) ;
+      })
+      .then(function(){
+        return tab.click('.ui-btn.ui-btn-normal.ui-btn-primary');
+      })
+      .then(function(){
+        scb() ;
+      })
+      .catch(function(error){
+        fcb(error) ;
+      })
     }) ;
   }
 
