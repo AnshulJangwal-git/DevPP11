@@ -1,0 +1,3 @@
+#wCat commands 
+
+#cat f1.txt
