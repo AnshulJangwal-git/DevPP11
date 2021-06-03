@@ -55,7 +55,7 @@ let challenges = require("./challenges") ;
  
 })() ;
 
-async function addChallenges(browser, createChallengeLink, challenges){
+async function addChallenges(browser, createChallengeLink, challenge){
     try{
         let newTab = await browser.newPage() ;
         //add one challenge 
@@ -64,13 +64,13 @@ async function addChallenges(browser, createChallengeLink, challenges){
         await newTab.goto(createChallengeLink) ;
         
     
-        let challengesName = challenges["Challenge Name"] ;
-        let description = challenges["Description"] ;
-        let problemStatement = challenges["Problem Statement"] ;
-        let inputFormat = challenges["Input Format"] ;
-        let constraints = challenges["Constraints"] ;
-        let outputFormat = challenges["Output Format"] ;
-        let tags = challenges["Tags"] ;
+        let challengesName = challenge["Challenge Name"] ;
+        let description = challenge["Description"] ;
+        let problemStatement = challenge["Problem Statement"] ;
+        let inputFormat = challenge["Input Format"] ;
+        let constraints = challenge["Constraints"] ;
+        let outputFormat = challenge["Output Format"] ;
+        let tags = challenge["Tags"] ;
     
         await newTab.waitForTimeout(2000) ;
         await newTab.type("#name", challengesName) ;
