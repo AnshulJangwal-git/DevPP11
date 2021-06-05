@@ -1,0 +1,3 @@
+# Module1
+All the projects(Lecture wise) are done to learn Automation and webscrapping...
+Automation includes promises and async await concepts.
