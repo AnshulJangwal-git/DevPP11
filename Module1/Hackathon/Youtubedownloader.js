@@ -10,7 +10,7 @@ try{
         headless : false ,
         defaultViewport : null,
         args : ["--start maximised"] ,
-        slowMo : 50
+        slowMo : 30
     });
 
     let pages = await browser.pages() ;
@@ -55,7 +55,6 @@ async function addSongsLinks(browser,videoDownloaderLink ,ytLink){
         await newTab.waitForTimeout(2000) ;
 
         await newTab.click(".def-btn-box a") ;
-
         await newTab.close() ;
 
 
