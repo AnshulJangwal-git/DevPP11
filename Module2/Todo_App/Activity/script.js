@@ -1,33 +1,58 @@
 let addtodoButton = document.querySelector(".add-todo") ;
 let todoInput = document.querySelector(".todo-input") ;
 
-//attach click event on addtodoButton...
+let todosList = document.querySelector(".todos-list-container") ;
 
-// addtodoButton.addEventListener( "click", addTodo) ;
+//attach click and Enter Keypress event on addtodoButton...
 
-todoInput.addEventListener("keypress", addTodo) ;
+todoInput.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+      addTodo();
+    }
+  });
 
-function addTodo(e){
-   if(e.key == "Enter"){
-       let todoInputValue = todoInput.value ;
-       if(todoInputValue){
-           console.log(todoInputValue) ;
+addtodoButton.addEventListener("click", function(e){
+    addTodo() ;
+}) ;
 
-           todoInput.value = "" ;
-       }
-   }
+
+function addTodo(){
+    
+    let todoInputValue = todoInput.value ;
+    
+        if(todoInputValue){
+            appendTodo(todoInputValue) ;
+
+            todoInput.value = "" ;
+        }  
 }
 
-// function addTodo(e){
-// // console.log(event) ;
+function appendTodo(todo){
+    let todoItemDiv = document.createElement("div") ;
+    todoItemDiv.classList.add("todo-item") ;
+    
+    // <div class = "todo-item"> </div>..
 
-// let todoInputValue = todoInput.value ;
+    let pTag = document.createElement("p") ;
+    pTag.classList.add("todo") ;
+    pTag.textContent = todo ;
 
-//   if(todoInputValue){
-//       //falsy values == 0, "", false, undefined, null, NaN
+    // <p class = "todo-input">Learn CSS</p>..
 
-//     console.log(todoInputValue) ;
-//     //it will empty the todoInput..
-//     todoInput.value = "" ;
-//   }
-// }
+    let deleteTodoButton = document.createElement("button") ;
+    deleteTodoButton.classList.add("delete-todo") ;
+    deleteTodoButton.textContent = "Delete" ;
+
+    deleteTodoButton.addEventListener("click", deleteTodo) ;
+
+    // <button class = "delete-todo">Delete</button>
+    todoItemDiv.append(pTag) ;
+    todoItemDiv.append(deleteTodoButton) ;
+
+    todosList.append(todoItemDiv) ;
+
+}
+
+function deleteTodo(e){
+    e.target.parentNode.remove() ;
+}
