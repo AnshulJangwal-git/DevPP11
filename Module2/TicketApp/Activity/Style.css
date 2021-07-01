@@ -1,0 +1,135 @@
+* {
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Lato', sans-serif;
+}
+
+.header {
+    height: 100px;
+    width: auto;
+    background: #a29bfe;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.ticket-filters {
+    height: 61%;
+    width: 41%;
+    background-color: #dfe6e9;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    /* opacity: 0.6; */
+}
+
+.filter {
+    height: 62%;
+    width: 12%;
+    border-radius: 10px;
+    opacity: 0.6;
+}
+
+.filter:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.red {
+    background-color: red;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.green {
+    background-color: green;
+}
+
+.yellow {
+    background: yellow;
+}
+
+.black {
+    background-color: black;
+}
+
+.ticket-actions {
+    height: 61%;
+    width: 7.5%;
+    border-radius: 10px;
+    background-color: #dfe6e9;
+    display: flex;
+    /* justify-content: space-evenly; */
+    /* align-items: center; */
+}
+
+.ticket-actions div {
+    height: 100%;
+    width: 50%;
+    /* background-color: #b2bec3; */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.ticket-actions div:hover {
+    background-color: #b2bec3;
+}
+
+.ticket-actions i {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.ticket-container {
+}
+
+.ticket-modal {
+    position: absolute;
+    top: 33%;
+    left: calc(100vh - 200px);
+    height: 300px;
+    width: 400px;
+    display: flex;
+}
+
+.ticket-text {
+    height: 100%;
+    width: 70%;
+    background-color: #a29bfe;
+    padding: 10px;
+    font-size: 25px;
+    outline: none;
+    font-weight: bold;
+}
+
+.tickets-filter {
+    width: 30%;
+    height: 100%;
+    background-color: burlywood;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.ticket-filter {
+    height: 12%;
+    width: 60%;
+    /* flex-direction: column; */
+    border-radius: 10px;
+    opacity: 0.5;
+}
+.ticket-filter:hover{
+    opacity: 1;
+}
+
+.selected-filter {
+    border: 3px solid white;
+    opacity: 1;
+}
