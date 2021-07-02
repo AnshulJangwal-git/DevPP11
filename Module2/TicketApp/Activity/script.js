@@ -1,4 +1,3 @@
-  
 let allFilters = document.querySelectorAll(".filter");
 let openModal = document.querySelector(".open-modal");
 let closeModal = document.querySelector(".close-modal");
