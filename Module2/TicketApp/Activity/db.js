@@ -26,9 +26,9 @@ function loadSelectedTickets(filter){
 
     for (let i = 0; i < allTickets.length; i++) {
       let ticketInfoObject = allTickets[i];
-      
+
       if(ticketInfoObject.ticketFilter == filter){
-        appendTicket(ticketInfoObject);
+        appendTicket(ticketInfoObject); 
       }
     }
   }
