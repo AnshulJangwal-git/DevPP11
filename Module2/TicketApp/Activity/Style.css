@@ -86,9 +86,6 @@
     font-weight: bold;
 }
 
-.ticket-container {
-}
-
 .ticket-modal {
     position: absolute;
     top: 33%;
@@ -125,11 +122,64 @@
     border-radius: 10px;
     opacity: 0.5;
 }
-.ticket-filter:hover{
+
+.ticket-filter:hover {
     opacity: 1;
 }
 
 .selected-filter {
     border: 3px solid white;
     opacity: 1;
+}
+
+.ticket {
+    height: 150px;
+    width: 250px;
+    border: 1px solid lightgray;
+}
+
+.ticket-header {
+    height: 11%;
+}
+
+.ticket-content {
+    height: 89%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.ticket-info {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.ticket-id {
+}
+
+.ticket-delete {
+}
+
+.ticket-value {
+    height: 80%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    word-break: break-all;
+}
+
+.ticket-container {
+    height: calc(100vh - 100px);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    grid-gap: 10px;
 }

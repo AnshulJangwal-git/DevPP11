@@ -3,6 +3,8 @@ let openModal = document.querySelector(".open-modal") ;
 let closeModal = document.querySelector(".close-modal") ;
 
 
+
+
 openModal.addEventListener("click", openTicketModal) ;
 closeModal.addEventListener("click", closeTicketModal) ;
 
@@ -28,6 +30,7 @@ function openTicketModal(e){
     // console.log(ticketModal) ;
     document.querySelector("body").append(ticketModal) ;
     ticketModalopen = true ;
+    isTextTyped = false ;
 
     let ticketTextDiv = document.querySelector(".ticket-text") ;
     ticketTextDiv.addEventListener("keypress", handleKeypress) ;
@@ -54,8 +57,27 @@ function closeTicketModal(e){
 }
 
 function handleKeypress(e){
+    if(e.key == "Enter" && isTextTyped && e.target.textContent){
+        let filterSelected = document.querySelector(".selected-filter").classList[1] ;
+
+        let ticketId = uuid() ;
+
+        let ticketInfoObject = {
+            ticketFilter : filterSelected,
+            ticketValue : e.target.textContent ,
+            ticketId : ticketId 
+        } ;
+
+        appendTicket(ticketInfoObject) ;
+        closeModal.click() ;
+        saveTicketToDB(ticketInfoObject) ;
+    }
+
     if(!isTextTyped){
         isTextTyped = true ;
         e.target.textContent = "" ;
     }
 }
+
+
+  
