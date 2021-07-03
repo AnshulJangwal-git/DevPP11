@@ -20,7 +20,9 @@ window.addEventListener("resize", function(e){
 let ctx = canvas.getContext("2d") ;
 ctx.strokeStyle = "black"
 
+let linesDB = [] ;
 let isPenDown = false ;
+let line = [] ;
 
 canvas.addEventListener("mousedown", function(e){
     isPenDown = true ;
@@ -29,6 +31,13 @@ canvas.addEventListener("mousedown", function(e){
 
     ctx.beginPath() ;
     ctx.moveTo(x, y) ;
+
+    let pointObject = {
+        x : x,
+        y : y, 
+        type : "md"
+    }
+    line.push(pointObject) ;
 })
 
 canvas.addEventListener("mousemove", function(e){
@@ -39,11 +48,23 @@ canvas.addEventListener("mousemove", function(e){
 
         ctx.lineTo(x, y) ;
         ctx.stroke() ;
+
+        let pointObject = {
+            x : x,
+            y : y, 
+            type : "mm"
+        }
+        line.push(pointObject) ;
     }
+   
 })
 
 canvas.addEventListener("mouseup", function(e){
-    isPendown = false ;
+    isPenDown = false ;
+    console.log("Inside mouse up event") ;
+    linesDB.push(line) ;
+    line = [] ;
+    console.log(linesDB) ;
 })
 
 
