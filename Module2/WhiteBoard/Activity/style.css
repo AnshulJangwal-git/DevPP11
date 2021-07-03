@@ -1,0 +1,41 @@
+* {
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+.tools-container {
+    height: 100px;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tools-content {
+    height: 70%;
+    width: 75%;
+    border: 1px solid;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: lightgray;
+}
+
+.tool {
+    height: 55%;
+    width: 15%;
+}
+
+.tool img {
+    height: 100%;
+    width: 100%;
+}
+
+.drawing-container {
+}
+
+#canvas {
+}
