@@ -14,19 +14,25 @@
             <div class="tool"><img src="./Newclons/Black_Pencil.svg" alt=""></div>
             <div class="tool"><img src="./Newclons/Eraser.svg" alt=""></div>
             <div class="tool" id="undo"><img src="./Newclons/Undo.svg" alt=""></div>
-            <div class="tool"><img src="./Newclons/Redo.svg" alt=""></div>
-            <div class="tool"><img src="./Newclons/StickyNote.svg" alt=""></div>
-            <div class="tool"><img src="./Newclons/Photo.svg" alt="./"></div>
+            <div class="tool" id="redo"><img src="./Newclons/Redo.svg" alt=""></div>
+            <div class="tool" id="sticky"><img src="./Newclons/StickyNote.svg" alt=""></div>
+
+            <div class="tool" id="photo">
+                <img src="./NewIcons/Photo.svg" alt="" />
+                <input type="file" class="hide" name="" id="photo-upload" />
+              </div>
+
             <div class="tool"><img src="./Newclons/Download.svg" alt=""></div>
         </div>
     </div>
     
     <div class="drawing-container">
         <canvas id="canvas"></canvas> 
-    </div>
-   
+    </div>   
     
     <script src="./script.js"></script>
     <script src="./tools.js"></script>
+    <script src="./sticky.js"></script>
+    <script src="./img.js"></script>
 </body>
 </html>

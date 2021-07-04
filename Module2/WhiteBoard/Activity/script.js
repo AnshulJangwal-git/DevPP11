@@ -23,8 +23,12 @@ ctx.strokeStyle = "black"
 let linesDB = [] ;
 let isPenDown = false ;
 let line = [] ;
+let redoLinesDB = [] ;
 
 canvas.addEventListener("mousedown", function(e){
+    if(redoLinesDB.length){
+        redoLinesDB = [] ;
+    }
     isPenDown = true ;
     let x = e.clientX ;
     let y = e.clientY-100;
@@ -61,10 +65,10 @@ canvas.addEventListener("mousemove", function(e){
 
 canvas.addEventListener("mouseup", function(e){
     isPenDown = false ;
-    console.log("Inside mouse up event") ;
+    
     linesDB.push(line) ;
     line = [] ;
-    console.log(linesDB) ;
+    // console.log(linesDB) ;
 })
 
 
