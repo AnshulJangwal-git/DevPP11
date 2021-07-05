@@ -13,6 +13,8 @@ canvas.height = window.innerHeight - 100 ;
 window.addEventListener("resize", function(e){
     canvas.width = window.innerWidth ;
     canvas.height = window.innerHeight - 100 ;
+
+    drawLinesFromDB() ;
 });
 
 // canvas drawing gets erased on window resizing..
@@ -39,7 +41,9 @@ canvas.addEventListener("mousedown", function(e){
     let pointObject = {
         x : x,
         y : y, 
-        type : "md"
+        type : "md",
+        lineWidth : ctx.lineWidth ,
+        strokeStyle : ctx.strokeStyle ,
     }
     line.push(pointObject) ;
 })
