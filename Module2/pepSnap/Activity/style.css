@@ -111,3 +111,22 @@ video {
     position: absolute;
     top: 0px;
 }
+
+.zoom {
+    flex-direction: column;
+    /* border: 1px solid white; */
+}
+
+.zoom div {
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.fas {
+    font-size: 1.6rem;
+    color: white;
+}
+

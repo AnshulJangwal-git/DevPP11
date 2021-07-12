@@ -7,6 +7,13 @@ let recordingState = false;
 let filters = document.querySelectorAll(".filter");
 let filterSelected = "none";
 
+let zoomIn = document.querySelector(".zoomIn") ;
+let zoomOut = document.querySelector(".zoomOut") ;
+
+let minZoom = 1 ;
+let maxZoom = 3.1 ;
+let currentZoom = 1 ;
+
 //Using await we can also perform the same functionality..
 
 (async function () {
@@ -82,7 +89,7 @@ let filterSelected = "none";
         aTag.download = `Image${Date.now()}.jpg`;
         aTag.href = canvas.toDataURL("image/jpg");
         aTag.click();
-        
+
     })
 
 })();
@@ -120,6 +127,22 @@ for (let i = 0; i < filters.length; i++) {
       }
       filterSelected = currentFilterSelected;
     });
-  }
+}
 
+
+zoomIn.addEventListener("click", function(){
+    if(currentZoom + 0.1 > maxZoom){
+        return ;
+    }
+    currentZoom = currentZoom + 0.1 ;
+    videoElement.style.transform = `scale(${currentZoom})` ;
+})
+
+zoomOut.addEventListener("click", function(){
+    if(currentZoom - 0.1 < minZoom){
+        return ;
+    }
+    currentZoom = currentZoom - 0.1 ;
+    videoElement.style.transform = `scale(${currentZoom})` ;
+})
 
