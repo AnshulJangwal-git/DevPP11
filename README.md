@@ -1,9 +1,7 @@
 # Module1
-All the projects(Lecture wise) are done to learn Automation and webscrapping...
-Automation includes promises and async await concepts.
+Javascript Concepts
 
 # Module2
-DOM projects are done to make a good command on frontend
-(HTML, CSS, Javascript)
+DOM(HTML, CSS, Javascript)
 
 #Module3
