@@ -4,15 +4,8 @@ let capturePhoto = document.querySelector(".inner-capture");
 let mediaRecorder;
 let recordingState = false;
 
-
-// let constraint = { video: true };
-// navigator.mediaDevices.getUserMedia(constraint).then(function (mediaStream) {
-//     // console.log(mediaStream);
-//     videoElement.srcObject = mediaStream ;
-// })
-//     .catch(function (error) {
-//         console.log(error);
-//     })
+let filters = document.querySelectorAll(".filter");
+let filterSelected = "none";
 
 //Using await we can also perform the same functionality..
 
@@ -80,13 +73,53 @@ let recordingState = false;
         let ctx = canvas.getContext("2d");
         ctx.drawImage(videoElement, 0, 0);
 
+        if(filterSelected != "none"){
+            ctx.fillStyle = filterSelected ;
+            ctx.fillRect(0, 0, canvas.width, canvas.height) ;
+        }
         //download canvas as an image..
         let aTag = document.createElement("a");
         aTag.download = `Image${Date.now()}.jpg`;
         aTag.href = canvas.toDataURL("image/jpg");
         aTag.click();
-
+        
     })
 
 })();
+
+for (let i = 0; i < filters.length; i++) {
+    filters[i].addEventListener("click", function (e) {
+
+      let currentFilterSelected = e.target.style.backgroundColor;
+
+      if (currentFilterSelected == "") {
+        if (document.querySelector(".filter-div")) {
+          document.querySelector(".filter-div").remove();
+          filterSelected = "none";
+          return;
+        }
+      }
+  
+      console.log(currentFilterSelected);
+      if (filterSelected == currentFilterSelected) {
+        return;
+      }
+  
+      let filterDiv = document.createElement("div");
+      filterDiv.classList.add("filter-div");
+      filterDiv.style.backgroundColor = currentFilterSelected;
+  
+      if (filterSelected == "none") {
+        document.body.append(filterDiv);
+
+      } else {
+
+        document.querySelector(".filter-div").remove();
+        document.body.append(filterDiv);
+
+      }
+      filterSelected = currentFilterSelected;
+    });
+  }
+
 
