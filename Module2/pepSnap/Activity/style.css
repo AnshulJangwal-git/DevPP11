@@ -17,11 +17,11 @@ video {
 
 .controls {
     width: 160px;
-    top: 30vh;
+    top: 18vh;
     position: absolute;
     right: 5vw;
     /* border: 1px solid red; */
-    height: 300px;
+    height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -31,10 +31,11 @@ video {
 
 .controls>div {
     width: 60%;
-    height: 30%;
+    height: 15%;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 #record {
@@ -59,6 +60,16 @@ video {
     width: 70%;
     background: white;
     border-radius: 50%;
+}
+
+.gallery-btn {
+    background: black;
+    border-radius: 50%;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border: 2px solid white;
+    cursor: pointer ;
 }
 
 /* Animation-CSS */
@@ -103,6 +114,7 @@ video {
     background-image: url("https://images.pexels.com/photos/1898555/pexels-photo-1898555.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260");
     background-size: cover;
     background-blend-mode: soft-light;
+    cursor: pointer;
 }
 
 .filter-div {
@@ -129,4 +141,3 @@ video {
     font-size: 1.6rem;
     color: white;
 }
-
