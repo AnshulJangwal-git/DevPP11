@@ -39,12 +39,34 @@ function fetchMedia() {
 }
 
 function appendPhoto(mediaObj){
+    let mediaDiv = document.createElement("div") ;
+    mediaDiv.classList.add("media-div") ;
+
+    mediaDiv.innerHTML = `<img class = "media-img" src=${mediaObj.url} alt="">
+    <div class="media-buttons">
+        <div class="download-media">Download</div>
+        <div class="delete-media">Delete</div>
+    </div>` ;
+
+    // mediaDiv.querySelector("img").src = mediaObj.url ;
+    document.querySelector(".gallery").append(mediaDiv) ;
 
 
 }
 
 function appendVideo(mediaObj){
+    let mediaDiv = document.createElement("div") ;
+    mediaDiv.classList.add("media-div") ;
 
-    
+    mediaDiv.innerHTML = `<video class = "media-video" controls></video>
+    <div class="media-buttons">
+        <div class="download-media">Download</div>
+        <div class="delete-media">Delete</div>
+    </div>` ;
+    mediaDiv.querySelector("video").src = URL.createObjectURL(mediaObj.url) ;
+    // mediaDiv.querySelector("img").src = mediaObj.url ;
+    document.querySelector(".gallery").append(mediaDiv) ;
+
+
 }
 
