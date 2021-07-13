@@ -4,7 +4,7 @@ let dbOpenRequest = indexedDB.open("Gallery", 1);
 
 dbOpenRequest.onupgradeneeded = function (e) {
     db = e.target.result;
-    db.createObjectStore("Media", { keyPath: "mid" });  // table will be created only when the db is created first time..
+    db.createObjectStore("Media", { keyPath: "mid" }); // table will be created only when the db is created first time..
 
 };
 dbOpenRequest.onsuccess = function (e) {
@@ -24,12 +24,12 @@ function fetchMedia() {
     cursorObject.onsuccess = function (e) {
         let cursor = cursorObject.result;
         if (cursor) {
-            let mediaObj = cursor.value ;
-            if(mediaObj.type == "photo"){
-                appendPhoto(mediaObj) ;
+            let mediaObj = cursor.value;
+            if (mediaObj.type == "photo") {
+                appendPhoto(mediaObj);
 
-            }else{
-                appendVideo(mediaObj) ;
+            } else {
+                appendVideo(mediaObj);
 
             }
 
@@ -38,35 +38,81 @@ function fetchMedia() {
     }
 }
 
-function appendPhoto(mediaObj){
-    let mediaDiv = document.createElement("div") ;
-    mediaDiv.classList.add("media-div") ;
+function appendPhoto(mediaObj) {
+    let mediaDiv = document.createElement("div");
+    mediaDiv.classList.add("media-div");
 
-    mediaDiv.innerHTML = `<img class = "media-img" src=${mediaObj.url} alt="">
-    <div class="media-buttons">
-        <div class="download-media">Download</div>
-        <div class="delete-media">Delete</div>
-    </div>` ;
+    mediaDiv.innerHTML = `<img class="media-img" src=${mediaObj.url} alt="">
+      <div class="media-buttons">
+          <div class="download-media">Download</div>
+          <div class="delete-media">Delete</div>
+      </div>`;
 
-    // mediaDiv.querySelector("img").src = mediaObj.url ;
-    document.querySelector(".gallery").append(mediaDiv) ;
+//download functionality..
+    mediaDiv
+        .querySelector(".download-media")
+        .addEventListener("click", function () {
+            downloadMedia(mediaObj);
+        });
 
+//delete functionality..
+    mediaDiv
+        .querySelector(".delete-media")
+        .addEventListener("click", function () {
+            deleteMedia(mediaObj, mediaDiv);
+        });
 
+    document.querySelector(".gallery").append(mediaDiv);
 }
 
-function appendVideo(mediaObj){
-    let mediaDiv = document.createElement("div") ;
-    mediaDiv.classList.add("media-div") ;
 
-    mediaDiv.innerHTML = `<video class = "media-video" controls></video>
-    <div class="media-buttons">
-        <div class="download-media">Download</div>
-        <div class="delete-media">Delete</div>
-    </div>` ;
-    mediaDiv.querySelector("video").src = URL.createObjectURL(mediaObj.url) ;
-    // mediaDiv.querySelector("img").src = mediaObj.url ;
-    document.querySelector(".gallery").append(mediaDiv) ;
+function appendVideo(mediaObj) {
+    let mediaDiv = document.createElement("div");
+    mediaDiv.classList.add("media-div");
 
+    mediaDiv.innerHTML = `<video class="media-video" controls autoplay loop></video>
+      <div class="media-buttons">
+          <div class="download-media">Download</div>
+          <div class="delete-media">Delete</div>
+      </div>`;
+    mediaDiv.querySelector("video").src = URL.createObjectURL(mediaObj.url);
 
+    //download functionality
+    mediaDiv
+        .querySelector(".download-media")
+        .addEventListener("click", function () {
+            downloadMedia(mediaObj);
+        });
+
+    //delete functionality..
+    mediaDiv
+        .querySelector(".delete-media")
+        .addEventListener("click", function () {
+            deleteMedia(mediaObj, mediaDiv);
+        });
+
+    document.querySelector(".gallery").append(mediaDiv);
 }
 
+function downloadMedia(mediaObject) {
+    let aTag = document.createElement("a");
+    if (mediaObject.type == "photo") {
+        aTag.download = `${mediaObject.mid}.jpg`;
+        aTag.href = mediaObject.url;
+
+    } else {
+        aTag.download = `${mediaObject.mid}.mp4`;
+        aTag.href = URL.createObjectURL(mediaObject.url);
+    }
+    aTag.click();
+}
+
+function deleteMedia(mediaObject, mediaDiv) {
+    let mid = mediaObject.mid;
+    let txnObject = db.transaction("Media", "readwrite");
+    let mediaTable = txnObject.objectStore("Media");
+    mediaTable.delete(mid);
+
+    mediaDiv.remove(); //will remove from the UI..
+
+}
