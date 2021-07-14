@@ -1,0 +1,82 @@
+* {
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+
+.menu-options {
+    height: 50px;
+    background: aquamarine;
+}
+
+.formula-tab {
+    height: 30px;
+    background: burlywood;
+}
+
+.cells {
+    height: calc(100vh - 110px);
+    /* background: aliceblue; */
+    overflow: auto;
+    position: relative;
+}
+
+.sheets {
+    height: 30px;
+    background: bisque;
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    border: 0.5px solid lightgray;
+    min-width: 100px;
+    /* overflow: auto; */
+    min-height: 28px;
+    outline: none;
+    padding: 2px;
+}
+
+.top-left-cell {
+    height: 28px;
+    background: lightgray;
+    width: 30px;
+}
+
+.top-row {
+    display: flex;
+    /* min-width: 100px; */
+    /* border: 1px solid; */
+    position: absolute;
+    top: 0px;
+    left: 30px;
+    height: 28px;
+}
+
+.top-row-cell {
+    min-width: 100px;
+    border: 1px solid;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.left-col {
+}
+
+.left-col-cell {
+    height: 28px;
+    border: 1px solid;
+    width: 30px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.all-cells {
+    position: absolute;
+    top: 28px;
+    left: 30px;
+}
