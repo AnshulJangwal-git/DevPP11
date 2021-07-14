@@ -1,4 +1,5 @@
 let cellsContainer = document.querySelector(".cells");
+let db ;
 
 function initCells() {
     let cellsContent = "";
@@ -20,7 +21,7 @@ function initCells() {
     for (let i = 0; i < 100; i++) {
         cellsContent += '<div class="row">';
         for (let j = 0; j < 26; j++) {
-            cellsContent += `<div class="cell" contenteditable="true"></div>`;
+            cellsContent += `<div class="cell" contenteditable="true" rowid = "${i}" colid = "${j}"></div>`;
         }
         cellsContent += "</div>";
     }
@@ -28,4 +29,27 @@ function initCells() {
     cellsContainer.innerHTML = cellsContent;
 }
 
+function initDB(){
+    db = [] ;
+
+    for(let i = 0; i < 100; i++){
+        let row = [] ;
+        for(let j = 0; j < 26; j++){
+            // i = 1
+            // j = 1 => B2
+            let cellName = String.fromCharCode(65 + j) + (i + 1) ;
+            let cellObject = {
+                Name : cellName, 
+                value : "",
+                formula : "",
+            } ;
+            row.push(cellObject) ;
+        }
+        db.push(row) ;
+        console.log(db) ;
+    }
+}
+
+
 initCells();
+initDB() ;
