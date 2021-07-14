@@ -32,7 +32,7 @@
 
 .cell {
     border: 0.5px solid lightgray;
-    min-width: 100px;
+    min-width: 120px;
     /* overflow: auto; */
     min-height: 28px;
     outline: none;
@@ -43,6 +43,8 @@
     height: 28px;
     background: lightgray;
     width: 30px;
+    position: absolute;
+    z-index: 4 ;
 }
 
 .top-row {
@@ -53,17 +55,23 @@
     top: 0px;
     left: 30px;
     height: 28px;
+    z-index: 2 ;
+    background: white;
 }
 
 .top-row-cell {
-    min-width: 100px;
-    border: 1px solid;
+    min-width: 120px;
+    border: 1px solid lightgray;
     display: flex;
     justify-content: center;
     text-align: center;
 }
 
 .left-col {
+    position: absolute;
+    top: 28px;
+    z-index: 2;
+    background: white ;
 }
 
 .left-col-cell {
