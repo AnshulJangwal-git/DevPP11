@@ -20,11 +20,12 @@ cellsContainer.addEventListener("scroll", function (e) {
 formulaInput.addEventListener("blur", function (e) {
     let formula = e.target.value;
     if (formula) {
-        let calculatedValue = solveFormula(formula);
+        let cellObject = getCellObjectFromElement(lastSelectedCell);
+        let calculatedValue = solveFormula(formula, cellObject);
         // UI Update
         lastSelectedCell.textContent = calculatedValue;
         // DB Update
-        let cellObject = getCellObjectFromElement(lastSelectedCell);
+
         cellObject.value = calculatedValue;
         cellObject.formula = formula;
     }
@@ -33,8 +34,8 @@ formulaInput.addEventListener("blur", function (e) {
 for (let i = 0; i < allCells.length; i++) {
     allCells[i].addEventListener("click", function (e) {
         let cellObject = getCellObjectFromElement(e.target);
-        address.value = cellObject.name ;
-        formulaInput.value = cellObject.formula ;
+        address.value = cellObject.name;
+        formulaInput.value = cellObject.formula;
     });
 
     allCells[i].addEventListener("blur", function (e) {
@@ -47,11 +48,14 @@ for (let i = 0; i < allCells.length; i++) {
             let cellObject = getCellObjectFromElement(e.target);
             cellObject.value = cellValueFromUI;
 
+            //update childrens of the current updated cell..
+            updateChildrens(cellObject.childrens);
+
         }
-    }) ;
+    });
 }
 
-function solveFormula(formula) {
+function solveFormula(formula, selfCellObject) {
     // tip : implement infix evalutaion
     // ( A1 + A2 ) => ( 10 + 20 );
     let formulaComps = formula.split(" ");
@@ -65,8 +69,13 @@ function solveFormula(formula) {
         ) {
             // A1 || A2
             // fComp = A1
-            let cellObject = getCellObjectFromName(fComp);
-            let value = cellObject.value;
+            let parentCellObject = getCellObjectFromName(fComp);
+            let value = parentCellObject.value;
+            //add yourself as a child of parentCellObject...
+            if (selfCellObject) {
+                parentCellObject.childrens.push(selfCellObject.name);
+            }
+
             formula = formula.replace(fComp, value);
         }
     }
@@ -89,3 +98,22 @@ function getCellObjectFromName(name) {
     return db[rowId][colId];
 }
 
+function updateChildrens(childrens) {
+    for(let i = 0; i < childrens.length; i++){
+        let child = childrens[i] ;
+        //B1
+        let childCellObject = getCellObjectFromName(child) ;
+        let updatedValueOfChild = solveFormula(childCellObject.formula) ;
+        //db update
+        childCellObject.value = updatedValueOfChild ;
+        //ui update..
+
+        let colId = child.charCodeAt(0) - 65 ;
+        let rowId = Number(child.substring(1)) - 1 ;
+        document.querySelector(`div[rowid = "${rowId}"][colid = "${colId}"]`).textContent = updatedValueOfChild ;
+
+        //recursive Call
+        updateChildrens(childCellObject.childrens) ;
+
+    }
+}
