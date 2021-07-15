@@ -40,7 +40,8 @@ function initDB() {
                 name: cellName,
                 value: "",
                 formula: "",
-                childrens : []
+                childrens : [], 
+                parents : []
             };
             row.push(cellObject);
         }

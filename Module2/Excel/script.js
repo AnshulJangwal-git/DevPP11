@@ -22,12 +22,16 @@ formulaInput.addEventListener("blur", function (e) {
     if (formula) {
         let cellObject = getCellObjectFromElement(lastSelectedCell);
         let calculatedValue = solveFormula(formula, cellObject);
+
         // UI Update
         lastSelectedCell.textContent = calculatedValue;
-        // DB Update
 
+        // DB Update
         cellObject.value = calculatedValue;
         cellObject.formula = formula;
+
+        //update childrens..
+        updateChildrens(cellObject.childrens) ;
     }
 });
 
@@ -46,6 +50,12 @@ for (let i = 0; i < allCells.length; i++) {
         // cellObject ki value update !!
         if (cellValueFromUI) {
             let cellObject = getCellObjectFromElement(e.target);
+            //check if the given cell has formula on it !!
+            if(cellObject.formula && cellValueFromUI != cellObject.value){
+                deleteFormula(cellObject) ;
+                formulaInput.value = "" ;
+            }
+
             cellObject.value = cellValueFromUI;
 
             //update childrens of the current updated cell..
@@ -54,6 +64,25 @@ for (let i = 0; i < allCells.length; i++) {
         }
     });
 }
+
+function deleteFormula(cellObject) {
+    cellObject.formula = "";
+    for (let i = 0; i < cellObject.parents.length; i++) {
+      let parentName = cellObject.parents[i];
+      // A1
+      let parentCellObject = getCellObjectFromName(parentName);
+      let updatedChildrens = parentCellObject.childrens.filter(function (
+        childName
+      ) {
+        if (childName == cellObject.name) {
+          return false;
+        }
+        return true;
+      });
+      parentCellObject.childrens = updatedChildrens;
+    }
+    cellObject.parents = [];
+  }
 
 function solveFormula(formula, selfCellObject) {
     // tip : implement infix evalutaion
@@ -74,6 +103,9 @@ function solveFormula(formula, selfCellObject) {
             //add yourself as a child of parentCellObject...
             if (selfCellObject) {
                 parentCellObject.childrens.push(selfCellObject.name);
+                //update your parents...
+                selfCellObject.parents.push(parentCellObject.name) ;
+
             }
 
             formula = formula.replace(fComp, value);
