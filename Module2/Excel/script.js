@@ -21,6 +21,11 @@ formulaInput.addEventListener("blur", function (e) {
     let formula = e.target.value;
     if (formula) {
         let cellObject = getCellObjectFromElement(lastSelectedCell);
+        if(cellObject.formula != formula){
+            deleteFormula(cellObject) ;
+        }
+
+
         let calculatedValue = solveFormula(formula, cellObject);
 
         // UI Update
