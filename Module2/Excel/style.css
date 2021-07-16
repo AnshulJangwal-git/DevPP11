@@ -18,7 +18,10 @@
 
 .sheets {
     height: 30px;
-    background: bisque;
+    background: lemonchiffon;
+    display: flex;
+    align-items: center;
+    overflow: auto;
 }
 
 .row {
@@ -51,8 +54,9 @@
     top: 0px;
     left: 30px;
     height: 28px;
-    z-index: 2 ;
+    z-index: 2;
     background: white;
+    /* align-items: center; */
 }
 
 .top-row-cell {
@@ -61,6 +65,7 @@
     display: flex;
     justify-content: center;
     text-align: center;
+    padding-top: 4px;
 }
 
 .left-col {
@@ -98,4 +103,38 @@
     width: 180px;
     margin: 4px;
     padding: 2px;
+}
+
+.add-sheet {
+    margin-left: 10px;
+    margin-right: 10px;
+    /* border-right: 1px solid; */
+    cursor: pointer;
+}
+
+.sheets-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid;
+    height: 98%;
+}
+
+.sheet {
+    height: 100%;
+    width: 100px;
+    border-right: 1px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border-left: 1px solid; */
+    cursor: pointer;
+}
+
+.sheet.active-sheet {
+    /* background: white; */
+}
+
+.active-sheet {
+    background: white;
 }
