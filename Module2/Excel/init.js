@@ -1,4 +1,5 @@
 let cellsContainer = document.querySelector(".cells");
+let sheetsDB = [] ;
 let db ;
 
 function initCells() {
@@ -47,7 +48,8 @@ function initDB() {
         }
         db.push(row);
     }
-    console.log(db);
+    // console.log(db);
+    sheetsDB.push(db) ;
 }
 
 initCells() ;

@@ -21,8 +21,8 @@ formulaInput.addEventListener("blur", function (e) {
     let formula = e.target.value;
     if (formula) {
         let cellObject = getCellObjectFromElement(lastSelectedCell);
-        if(cellObject.formula != formula){
-            deleteFormula(cellObject) ;
+        if (cellObject.formula != formula) {
+            deleteFormula(cellObject);
         }
 
 
@@ -36,58 +36,63 @@ formulaInput.addEventListener("blur", function (e) {
         cellObject.formula = formula;
 
         //update childrens..
-        updateChildrens(cellObject.childrens) ;
+        updateChildrens(cellObject.childrens);
     }
 });
 
-for (let i = 0; i < allCells.length; i++) {
-    allCells[i].addEventListener("click", function (e) {
-        let cellObject = getCellObjectFromElement(e.target);
-        address.value = cellObject.name;
-        formulaInput.value = cellObject.formula;
-    });
-
-    allCells[i].addEventListener("blur", function (e) {
-        // logic to save this value in db
-        lastSelectedCell = e.target;
-
-        let cellValueFromUI = e.target.textContent;
-        // cellObject ki value update !!
-        if (cellValueFromUI) {
+function attachClickAndBlurEventsOnCell() {
+    for (let i = 0; i < allCells.length; i++) {
+        allCells[i].addEventListener("click", function (e) {
             let cellObject = getCellObjectFromElement(e.target);
-            //check if the given cell has formula on it !!
-            if(cellObject.formula && cellValueFromUI != cellObject.value){
-                deleteFormula(cellObject) ;
-                formulaInput.value = "" ;
+            address.value = cellObject.name;
+            formulaInput.value = cellObject.formula;
+        });
+
+        allCells[i].addEventListener("blur", function (e) {
+            // logic to save this value in db
+            lastSelectedCell = e.target;
+
+            let cellValueFromUI = e.target.textContent;
+            // cellObject ki value update !!
+            if (cellValueFromUI) {
+                let cellObject = getCellObjectFromElement(e.target);
+                //check if the given cell has formula on it !!
+                if (cellObject.formula && cellValueFromUI != cellObject.value) {
+                    deleteFormula(cellObject);
+                    formulaInput.value = "";
+                }
+
+                cellObject.value = cellValueFromUI;
+
+                //update childrens of the current updated cell..
+                updateChildrens(cellObject.childrens);
+
             }
+        });
+    }
 
-            cellObject.value = cellValueFromUI;
-
-            //update childrens of the current updated cell..
-            updateChildrens(cellObject.childrens);
-
-        }
-    });
 }
+
+attachClickAndBlurEventsOnCell() ;
 
 function deleteFormula(cellObject) {
     cellObject.formula = "";
     for (let i = 0; i < cellObject.parents.length; i++) {
-      let parentName = cellObject.parents[i];
-      // A1
-      let parentCellObject = getCellObjectFromName(parentName);
-      let updatedChildrens = parentCellObject.childrens.filter(function (
-        childName
-      ) {
-        if (childName == cellObject.name) {
-          return false;
-        }
-        return true;
-      });
-      parentCellObject.childrens = updatedChildrens;
+        let parentName = cellObject.parents[i];
+        // A1
+        let parentCellObject = getCellObjectFromName(parentName);
+        let updatedChildrens = parentCellObject.childrens.filter(function (
+            childName
+        ) {
+            if (childName == cellObject.name) {
+                return false;
+            }
+            return true;
+        });
+        parentCellObject.childrens = updatedChildrens;
     }
     cellObject.parents = [];
-  }
+}
 
 function solveFormula(formula, selfCellObject) {
     // tip : implement infix evalutaion
@@ -109,7 +114,7 @@ function solveFormula(formula, selfCellObject) {
             if (selfCellObject) {
                 parentCellObject.childrens.push(selfCellObject.name);
                 //update your parents...
-                selfCellObject.parents.push(parentCellObject.name) ;
+                selfCellObject.parents.push(parentCellObject.name);
 
             }
 
@@ -136,21 +141,21 @@ function getCellObjectFromName(name) {
 }
 
 function updateChildrens(childrens) {
-    for(let i = 0; i < childrens.length; i++){
-        let child = childrens[i] ;
+    for (let i = 0; i < childrens.length; i++) {
+        let child = childrens[i];
         //B1
-        let childCellObject = getCellObjectFromName(child) ;
-        let updatedValueOfChild = solveFormula(childCellObject.formula) ;
+        let childCellObject = getCellObjectFromName(child);
+        let updatedValueOfChild = solveFormula(childCellObject.formula);
         //db update
-        childCellObject.value = updatedValueOfChild ;
+        childCellObject.value = updatedValueOfChild;
         //ui update..
 
-        let colId = child.charCodeAt(0) - 65 ;
-        let rowId = Number(child.substring(1)) - 1 ;
-        document.querySelector(`div[rowid = "${rowId}"][colid = "${colId}"]`).textContent = updatedValueOfChild ;
+        let colId = child.charCodeAt(0) - 65;
+        let rowId = Number(child.substring(1)) - 1;
+        document.querySelector(`div[rowid = "${rowId}"][colid = "${colId}"]`).textContent = updatedValueOfChild;
 
         //recursive Call
-        updateChildrens(childCellObject.childrens) ;
+        updateChildrens(childCellObject.childrens);
 
     }
 }
