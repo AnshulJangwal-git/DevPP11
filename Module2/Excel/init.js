@@ -1,6 +1,8 @@
 let cellsContainer = document.querySelector(".cells");
-let sheetsDB = [] ;
-let db ;
+
+let sheetsDB = [];
+let db; //points to current db
+let visitedCells; //points to current visited Cells
 
 function initCells() {
     let cellsContent = '<div class="top-left-cell"></div>';
@@ -21,16 +23,16 @@ function initCells() {
     for (let i = 0; i < 100; i++) {
         cellsContent += '<div class="row">';
         for (let j = 0; j < 26; j++) {
-            cellsContent += `<div class="cell" contenteditable="true" rowid="${i}" colid="${j}"></div>` ;
+            cellsContent += `<div class="cell" contenteditable="true" rowid="${i}" colid="${j}"></div>`;
         }
-        cellsContent += "</div>" ;
+        cellsContent += "</div>";
     }
     cellsContent += "</div";
     cellsContainer.innerHTML = cellsContent;
 }
 
 function initDB() {
-    db = [];
+    let newDB = [];
     for (let i = 0; i < 100; i++) {
         let row = [];
         for (let j = 0; j < 26; j++) {
@@ -41,16 +43,20 @@ function initDB() {
                 name: cellName,
                 value: "",
                 formula: "",
-                childrens : [], 
-                parents : []
+                childrens: [],
+                parents: [],
+                visited: false
             };
             row.push(cellObject);
         }
-        db.push(row);
+        newDB.push(row);
     }
-    // console.log(db);
-    sheetsDB.push(db) ;
+    let dbObject = { db: newDB, visitedCells: [] };
+    sheetsDB.push(dbObject);
+    db = newDB;
+    visitedCells = dbObject.visitedCells;
+
 }
 
-initCells() ;
-initDB() ;
+initCells();
+initDB();

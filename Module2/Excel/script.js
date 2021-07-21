@@ -49,8 +49,9 @@ function attachClickAndBlurEventsOnCell() {
         });
 
         allCells[i].addEventListener("blur", function (e) {
-            // logic to save this value in db
             lastSelectedCell = e.target;
+            // logic to save this value in db
+
 
             let cellValueFromUI = e.target.textContent;
             // cellObject ki value update !!
@@ -67,13 +68,22 @@ function attachClickAndBlurEventsOnCell() {
                 //update childrens of the current updated cell..
                 updateChildrens(cellObject.childrens);
 
+                //handle visited cells..
+                let rowId = lastSelectedCell.getAttribute("rowid");
+                let colId = lastSelectedCell.getAttribute("colid");
+                if (!cellObject.visited) {
+                    visitedCells.push({ rowId, colId });
+                    cellObject.visited = true;
+
+                }
+
             }
         });
     }
 
 }
 
-attachClickAndBlurEventsOnCell() ;
+attachClickAndBlurEventsOnCell();
 
 function deleteFormula(cellObject) {
     cellObject.formula = "";
